@@ -1,0 +1,21 @@
+name: CI Chatbot Service
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+    paths:
+      - chatbot-service/**
+      - .github/workflows/ci-template.yml
+      - .github/workflows/ci-chatbot-service.yml
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci-template.yml
+    with:
+      service_name: chatbot-service
+      service_path: chatbot-service
+      ecr_repository: blacktickets-chatbot-service
+    secrets: inherit

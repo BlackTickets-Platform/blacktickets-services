@@ -1,0 +1,21 @@
+name: CI Booking Service
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+    paths:
+      - booking-service/**
+      - .github/workflows/ci-template.yml
+      - .github/workflows/ci-booking-service.yml
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci-template.yml
+    with:
+      service_name: booking-service
+      service_path: booking-service
+      ecr_repository: blacktickets-booking-service
+    secrets: inherit

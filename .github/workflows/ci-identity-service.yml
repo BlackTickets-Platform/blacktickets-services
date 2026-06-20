@@ -1,0 +1,21 @@
+name: CI Identity Service
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+    paths:
+      - identity-service/**
+      - .github/workflows/ci-template.yml
+      - .github/workflows/ci-identity-service.yml
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci-template.yml
+    with:
+      service_name: identity-service
+      service_path: identity-service
+      ecr_repository: blacktickets-identity-service
+    secrets: inherit

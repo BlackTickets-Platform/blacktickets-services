@@ -1,0 +1,21 @@
+name: CI Frontend
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+    paths:
+      - frontend/**
+      - .github/workflows/ci-template.yml
+      - .github/workflows/ci-frontend.yml
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci-template.yml
+    with:
+      service_name: frontend
+      service_path: frontend
+      ecr_repository: blacktickets-frontend
+    secrets: inherit

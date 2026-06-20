@@ -1,0 +1,21 @@
+name: CI Event Service
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+    paths:
+      - event-service/**
+      - .github/workflows/ci-template.yml
+      - .github/workflows/ci-event-service.yml
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci-template.yml
+    with:
+      service_name: event-service
+      service_path: event-service
+      ecr_repository: blacktickets-event-service
+    secrets: inherit
