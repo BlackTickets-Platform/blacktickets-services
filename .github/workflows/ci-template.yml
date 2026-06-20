@@ -33,7 +33,6 @@ on:
 
 permissions:
   contents: read
-  security-events: write
 
 jobs:
   quality:
@@ -166,9 +165,18 @@ jobs:
         with:
           image-ref: ${{ steps.version.outputs.image_uri }}
           format: table
+          output: trivy-${{ inputs.service_name }}.txt
           severity: HIGH,CRITICAL
           ignore-unfixed: true
           exit-code: 1
+
+      - name: Upload Trivy report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-${{ inputs.service_name }}
+          path: trivy-${{ inputs.service_name }}.txt
+          if-no-files-found: ignore
 
       - name: Push Docker image to ECR
         run: |
