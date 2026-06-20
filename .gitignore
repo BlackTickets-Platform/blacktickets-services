@@ -1,0 +1,13 @@
+.env
+.env.*
+node_modules/
+dist/
+coverage/
+*.log
+.DS_Store
+.vscode/
+.aws/
+credentials
+*.tfstate
+*.tfstate.*
+.terraform/
