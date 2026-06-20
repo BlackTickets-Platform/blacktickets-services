@@ -161,7 +161,7 @@ jobs:
             "${{ inputs.service_path }}"
 
       - name: Run Trivy image scan
-        uses: aquasecurity/trivy-action@0.29.0
+        uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: ${{ steps.version.outputs.image_uri }}
           format: table
