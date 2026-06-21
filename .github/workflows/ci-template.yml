@@ -142,22 +142,27 @@ jobs:
 
           if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
             IMAGE_TAG="v${{ steps.semver.outputs.version }}"
+            MOVING_TAG="prod"
           else
             IMAGE_TAG="dev-${GITHUB_SHA}"
+            MOVING_TAG="dev"
           fi
 
           IMAGE_URI="${ECR_REGISTRY}/${{ inputs.ecr_repository }}:${IMAGE_TAG}"
           SHA_URI="${ECR_REGISTRY}/${{ inputs.ecr_repository }}:${GITHUB_SHA}"
+          MOVING_URI="${ECR_REGISTRY}/${{ inputs.ecr_repository }}:${MOVING_TAG}"
 
           echo "image_tag=${IMAGE_TAG}" >> "${GITHUB_OUTPUT}"
           echo "image_uri=${IMAGE_URI}" >> "${GITHUB_OUTPUT}"
           echo "sha_uri=${SHA_URI}" >> "${GITHUB_OUTPUT}"
+          echo "moving_uri=${MOVING_URI}" >> "${GITHUB_OUTPUT}"
 
       - name: Build Docker image
         run: |
           docker build \
             --tag "${{ steps.version.outputs.image_uri }}" \
             --tag "${{ steps.version.outputs.sha_uri }}" \
+            --tag "${{ steps.version.outputs.moving_uri }}" \
             "${{ inputs.service_path }}"
 
       - name: Resolve Trivy exit code
@@ -192,6 +197,7 @@ jobs:
         run: |
           docker push "${{ steps.version.outputs.image_uri }}"
           docker push "${{ steps.version.outputs.sha_uri }}"
+          docker push "${{ steps.version.outputs.moving_uri }}"
 
   helm-update-placeholder:
     name: Future Helm Tag Update
