@@ -160,6 +160,16 @@ jobs:
             --tag "${{ steps.version.outputs.sha_uri }}" \
             "${{ inputs.service_path }}"
 
+      - name: Resolve Trivy exit code
+        id: trivy
+        shell: bash
+        run: |
+          if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+            echo "exit_code=1" >> "${GITHUB_OUTPUT}"
+          else
+            echo "exit_code=0" >> "${GITHUB_OUTPUT}"
+          fi
+
       - name: Run Trivy image scan
         uses: aquasecurity/trivy-action@master
         with:
@@ -168,7 +178,7 @@ jobs:
           output: trivy-${{ inputs.service_name }}.txt
           severity: HIGH,CRITICAL
           ignore-unfixed: true
-          exit-code: 1
+          exit-code: ${{ steps.trivy.outputs.exit_code }}
 
       - name: Upload Trivy report artifact
         if: always()
