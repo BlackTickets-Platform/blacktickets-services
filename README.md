@@ -38,8 +38,7 @@ Each workflow runs quality checks, dependency scanning, Docker image build, Triv
 
 Required GitHub secrets:
 
-- `AWS_ACCESS_KEY_ID`
-- `AWS_SECRET_ACCESS_KEY`
+- `AWS_ECR_PUSH_ROLE_ARN`
 - `AWS_REGION`
 - `AWS_ACCOUNT_ID`
 
@@ -63,4 +62,4 @@ ECR repositories:
 - `blacktickets-booking-service`
 - `blacktickets-chatbot-service`
 
-The deploy stage is currently a placeholder for a future update to the `blacktickets-helm` repository image tag. ArgoCD deployment is not triggered yet.
+The workflow authenticates to AWS through GitHub OIDC and pushes images to ECR without static AWS access keys. The deploy stage is currently a placeholder for a future update to the `blacktickets-helm` repository image tag. ArgoCD deployment is not triggered yet.
