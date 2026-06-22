@@ -1,7 +1,48 @@
 const { BedrockRuntimeClient, InvokeModelCommand } = require("@aws-sdk/client-bedrock-runtime");
+const { STSClient, AssumeRoleCommand } = require("@aws-sdk/client-sts");
 
-const client = new BedrockRuntimeClient({ region: "us-east-1" });
-const MODEL_ID = "amazon.nova-micro-v1:0";
+let cachedClient = null;
+let credentialsExpiry = null;
+
+const getBedrockClient = async () => {
+  const roleArn = process.env.BEDROCK_ROLE_ARN;
+  const region = process.env.BEDROCK_REGION || process.env.AWS_REGION || "us-east-1";
+
+  if (!roleArn) {
+    if (!cachedClient) {
+      cachedClient = new BedrockRuntimeClient({ region });
+    }
+    return cachedClient;
+  }
+
+  if (cachedClient && credentialsExpiry && credentialsExpiry > Date.now() + 120000) {
+    return cachedClient;
+  }
+
+  console.log(`Assuming Bedrock cross-account role: ${roleArn}`);
+  const stsClient = new STSClient({ region });
+  const assumeRoleCommand = new AssumeRoleCommand({
+    RoleArn: roleArn,
+    RoleSessionName: "blacktickets-chatbot-bedrock-session",
+    DurationSeconds: 900
+  });
+
+  const assumedRole = await stsClient.send(assumeRoleCommand);
+  credentialsExpiry = new Date(assumedRole.Credentials.Expiration).getTime();
+
+  cachedClient = new BedrockRuntimeClient({
+    region,
+    credentials: {
+      accessKeyId: assumedRole.Credentials.AccessKeyId,
+      secretAccessKey: assumedRole.Credentials.SecretAccessKey,
+      sessionToken: assumedRole.Credentials.SessionToken
+    }
+  });
+
+  return cachedClient;
+};
+
+const MODEL_ID = process.env.BEDROCK_MODEL_ID || "amazon.nova-micro-v1:0";
 
 const streamToString = async (stream) => {
   if (!stream) {
@@ -119,7 +160,8 @@ User message: "${message}"
     ),
   });
 
-  const response = await client.send(command);
+  const bedrockClient = await getBedrockClient();
+  const response = await bedrockClient.send(command);
   const rawOutput = await streamToString(response.Body ?? response.body);
   const parsedOutput = JSON.parse(rawOutput);
   const modelText = parsedOutput?.output?.message?.content?.[0]?.text;

@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     allowedHosts: [
-      "blacktickets-dev-alb-821224321.us-east-1.elb.amazonaws.com",
+      process.env.VITE_ALLOWED_HOST || ".elb.amazonaws.com",
       "localhost",
       "0.0.0.0"
     ]
