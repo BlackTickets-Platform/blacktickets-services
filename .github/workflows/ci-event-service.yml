@@ -11,6 +11,10 @@ on:
       - .github/workflows/ci-event-service.yml
   workflow_dispatch:
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   ci:
     uses: ./.github/workflows/ci-template.yml
