@@ -271,13 +271,17 @@ jobs:
           SERVICE_KEY="${{ steps.config.outputs.service_key }}"
           VALUES_FILE="${{ steps.config.outputs.values_file }}"
 
+          # Discard any unstaged changes left by the previous yq step so
+          # git pull --rebase can run cleanly on the first attempt.
+          git restore "${VALUES_FILE}"
+
           for attempt in 1 2 3 4 5; do
             echo "--- Push attempt ${attempt} ---"
 
             # Pull latest to avoid non-fast-forward rejections from parallel jobs
             git pull --rebase origin "${BRANCH_NAME}"
 
-            # Re-apply our tag (rebase may have brought a newer commit with a different tag)
+            # Apply our tag on top of the freshly-pulled file
             yq eval -i ".services.${SERVICE_KEY}.tag = \"${IMAGE_TAG}\"" "${VALUES_FILE}"
             git add "${VALUES_FILE}"
 
@@ -295,8 +299,11 @@ jobs:
 
             echo "Push rejected (concurrent write). Resetting and retrying in ${attempt}s..."
             git reset --soft HEAD~1
+            # Restore file so next git pull --rebase is clean
+            git restore "${VALUES_FILE}"
             sleep "${attempt}"
           done
 
           echo "ERROR: Failed to push after 5 attempts."
           exit 1
+
