@@ -265,18 +265,38 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          VALUES_FILE="${{ steps.config.outputs.values_file }}"
-          git add "${VALUES_FILE}"
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
-
           SERVICE_NAME="${{ inputs.service_name }}"
           IMAGE_TAG="${{ needs.build-scan-push.outputs.image_tag }}"
           BRANCH_NAME="${{ github.ref_name }}"
+          SERVICE_KEY="${{ steps.config.outputs.service_key }}"
+          VALUES_FILE="${{ steps.config.outputs.values_file }}"
 
-          git commit -m "ci: update ${SERVICE_NAME} image tag to ${IMAGE_TAG}\n\nTriggered by: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\nBranch: ${BRANCH_NAME}"
-          git push origin HEAD:${BRANCH_NAME}
-          echo "Committed and pushed updated tag for ${SERVICE_NAME}."
+          for attempt in 1 2 3 4 5; do
+            echo "--- Push attempt ${attempt} ---"
+
+            # Pull latest to avoid non-fast-forward rejections from parallel jobs
+            git pull --rebase origin "${BRANCH_NAME}"
+
+            # Re-apply our tag (rebase may have brought a newer commit with a different tag)
+            yq eval -i ".services.${SERVICE_KEY}.tag = \"${IMAGE_TAG}\"" "${VALUES_FILE}"
+            git add "${VALUES_FILE}"
+
+            if git diff --cached --quiet; then
+              echo "Tag already up to date after rebase. Nothing to commit."
+              exit 0
+            fi
+
+            git commit -m "ci: update ${SERVICE_NAME} image tag to ${IMAGE_TAG} (attempt ${attempt})"
+
+            if git push origin HEAD:"${BRANCH_NAME}"; then
+              echo "Successfully pushed updated tag for ${SERVICE_NAME}."
+              exit 0
+            fi
+
+            echo "Push rejected (concurrent write). Resetting and retrying in ${attempt}s..."
+            git reset --soft HEAD~1
+            sleep "${attempt}"
+          done
+
+          echo "ERROR: Failed to push after 5 attempts."
+          exit 1
