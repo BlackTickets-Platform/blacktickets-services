@@ -15,6 +15,14 @@ app.get("/health", (req, res) => {
   res.json({ service: "identity-service", status: "ok" });
 });
 
+app.get("/healthz", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
+app.get("/ready", (req, res) => {
+  res.status(200).json({ status: "ready" });
+});
+
 app.get("/metrics", metricsEndpoint);
 
 app.use("/auth", authRoutes);

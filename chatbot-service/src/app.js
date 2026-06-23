@@ -14,6 +14,14 @@ app.get("/health", (req, res) => {
   res.json({ service: "chatbot-service", status: "ok" });
 });
 
+app.get("/healthz", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
+app.get("/ready", (req, res) => {
+  res.status(200).json({ status: "ready" });
+});
+
 app.get("/metrics", metricsEndpoint);
 
 app.use("/", chatRoutes);
