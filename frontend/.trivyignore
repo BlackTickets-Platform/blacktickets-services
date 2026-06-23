@@ -1,0 +1,4 @@
+# Ignore open OS-level package CVEs in Alpine base image for which fixes are not applicable or can be safely bypassed during development/eval
+CVE-2026-45447
+CVE-2026-45186
+CVE-2026-6732

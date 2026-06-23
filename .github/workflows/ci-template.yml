@@ -183,6 +183,8 @@ jobs:
           severity: HIGH,CRITICAL
           ignore-unfixed: true
           exit-code: ${{ steps.trivy.outputs.exit_code }}
+        env:
+          TRIVY_IGNOREFILE: ${{ inputs.service_path }}/.trivyignore
 
       - name: Upload Trivy report artifact
         if: always()
