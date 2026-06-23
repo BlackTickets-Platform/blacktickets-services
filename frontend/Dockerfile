@@ -8,7 +8,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM nginxinc/nginx-unprivileged:1.27-alpine
+FROM nginxinc/nginx-unprivileged:1.29-alpine
 
 # Image runs as non-root user 'nginx' (uid 101) by default
 COPY nginx/default.conf.template /etc/nginx/templates/default.conf.template
