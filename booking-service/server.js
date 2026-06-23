@@ -15,3 +15,6 @@ start().catch((error) => {
   console.error("booking-service startup failed:", error);
   process.exit(1);
 });
+
+// Triggering CI/CD build for SonarQube and Snyk scan verification
+
