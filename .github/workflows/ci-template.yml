@@ -83,14 +83,14 @@ jobs:
 
       - name: Run SonarQube scan
         if: ${{ env.HAS_SONAR_CONFIG == 'true' }}
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           projectBaseDir: ${{ inputs.service_path }}
           args: >
-            -Dsonar.organization=BlackTickets-Platform
+            -Dsonar.organization=blacktickets-platform
             -Dsonar.projectKey=blacktickets-${{ inputs.service_name }}
             -Dsonar.projectName=blacktickets-${{ inputs.service_name }}
 
