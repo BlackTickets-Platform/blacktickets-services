@@ -90,7 +90,7 @@ jobs:
         with:
           projectBaseDir: ${{ inputs.service_path }}
           args: >
-            -Dsonar.organization=blacktickets-platform
+            -Dsonar.organization=BlackTickets-Platform
             -Dsonar.projectKey=blacktickets-${{ inputs.service_name }}
             -Dsonar.projectName=blacktickets-${{ inputs.service_name }}
 
