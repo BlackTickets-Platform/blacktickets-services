@@ -6,7 +6,7 @@ This diagram illustrates how your modular Terraform codebase is structured, how 
 
 ## 🛠️ Terraform Infrastructure Diagram
 
-![BlackTickets Terraform Architecture](/C:/Users/anant/.gemini/antigravity-ide/brain/26fdec66-cd1f-41d4-bc49-b3350ca528ae/blacktickets_terraform_architecture_1782223524468.png)
+![BlackTickets Terraform Architecture](./blacktickets_terraform_architecture.png)
 
 ---
 

@@ -6,7 +6,7 @@ This diagram explains the secure, keyless authentication model used by your micr
 
 ## 🔐 Security Architecture Diagram
 
-![BlackTickets IRSA Security](/C:/Users/anant/.gemini/antigravity-ide/brain/26fdec66-cd1f-41d4-bc49-b3350ca528ae/blacktickets_irsa_security_1782223618481.png)
+![BlackTickets IRSA Security](./blacktickets_irsa_security.png)
 
 ---
 

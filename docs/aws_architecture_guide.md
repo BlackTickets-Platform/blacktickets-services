@@ -6,7 +6,7 @@ This diagram visualizes the flow of user traffic, the containerized microservice
 
 ## 🖼️ Architecture Diagram
 
-![BlackTickets AWS Architecture](/C:/Users/anant/.gemini/antigravity-ide/brain/26fdec66-cd1f-41d4-bc49-b3350ca528ae/blacktickets_aws_architecture_1782223052687.png)
+![BlackTickets AWS Architecture](./blacktickets_aws_architecture.png)
 
 ---
 

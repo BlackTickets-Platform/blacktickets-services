@@ -6,7 +6,7 @@ This diagram illustrates how natural language user requests are parsed by Amazon
 
 ## 🤖 AI Agent Workflow Diagram
 
-![BlackTickets AI Agent Workflow](/C:/Users/anant/.gemini/antigravity-ide/brain/26fdec66-cd1f-41d4-bc49-b3350ca528ae/blacktickets_ai_agent_workflow_1782223699853.png)
+![BlackTickets AI Agent Workflow](./blacktickets_ai_agent_workflow.png)
 
 ---
 

@@ -6,7 +6,7 @@ This document describes the layered, cloud-native **DevSecOps security architect
 
 ## DevSecOps Security Architecture Diagram
 
-![DevSecOps Security Architecture](/C:/Users/anant/.gemini/antigravity-ide/brain/26fdec66-cd1f-41d4-bc49-b3350ca528ae/devsecops_security_architecture_1782243205719.png)
+![DevSecOps Security Architecture](./devsecops_security_architecture.png)
 
 ---
 

@@ -6,7 +6,7 @@ This diagram illustrates the automated flow from a developer commit to dynamic i
 
 ## 🚀 Pipeline Flow Diagram
 
-![BlackTickets CI/CD Pipeline](/C:/Users/anant/.gemini/antigravity-ide/brain/26fdec66-cd1f-41d4-bc49-b3350ca528ae/blacktickets_cicd_pipeline_1782223430505.png)
+![BlackTickets CI/CD Pipeline](./blacktickets_cicd_pipeline.png)
 
 ---
 

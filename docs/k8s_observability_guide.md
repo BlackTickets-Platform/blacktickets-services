@@ -6,7 +6,7 @@ This document describes the production-grade Kubernetes monitoring and observabi
 
 ## Observability Architecture Diagram
 
-![Kubernetes Observability Architecture](/C:/Users/anant/.gemini/antigravity-ide/brain/26fdec66-cd1f-41d4-bc49-b3350ca528ae/k8s_observability_architecture_1782243153872.png)
+![Kubernetes Observability Architecture](./k8s_observability_architecture.png)
 
 ---
 

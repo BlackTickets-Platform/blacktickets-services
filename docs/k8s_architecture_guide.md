@@ -6,7 +6,7 @@ This diagram highlights the internal pod counts, Kubernetes controllers (Externa
 
 ## ☸️ Kubernetes Cluster Diagram
 
-![BlackTickets Kubernetes Architecture](/C:/Users/anant/.gemini/antigravity-ide/brain/26fdec66-cd1f-41d4-bc49-b3350ca528ae/blacktickets_k8s_architecture_1782223253354.png)
+![BlackTickets Kubernetes Architecture](./blacktickets_k8s_architecture.png)
 
 ---
 
