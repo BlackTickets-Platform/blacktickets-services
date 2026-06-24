@@ -23,3 +23,4 @@ jobs:
       service_path: booking-service
       ecr_repository: blacktickets-booking-service
     secrets: inherit
+    #
