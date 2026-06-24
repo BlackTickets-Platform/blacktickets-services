@@ -5,10 +5,10 @@ let cachedClient = null;
 let credentialsExpiry = null;
 
 const getBedrockClient = async () => {
-  const roleArn = process.env.BEDROCK_ROLE_ARN;
+  const assumeRoleArn = process.env.BEDROCK_ASSUME_ROLE_ARN;
   const region = process.env.BEDROCK_REGION || process.env.AWS_REGION || "us-east-1";
 
-  if (!roleArn) {
+  if (!assumeRoleArn) {
     if (!cachedClient) {
       cachedClient = new BedrockRuntimeClient({ region });
     }
@@ -19,10 +19,10 @@ const getBedrockClient = async () => {
     return cachedClient;
   }
 
-  console.log(`Assuming Bedrock cross-account role: ${roleArn}`);
+  console.log(`Assuming Bedrock cross-account role: ${assumeRoleArn}`);
   const stsClient = new STSClient({ region });
   const assumeRoleCommand = new AssumeRoleCommand({
-    RoleArn: roleArn,
+    RoleArn: assumeRoleArn,
     RoleSessionName: "blacktickets-chatbot-bedrock-session",
     DurationSeconds: 900
   });
