@@ -55,6 +55,8 @@ const isBookingRequest = (message) => /book|ticket|reserve|seats?|passes?/i.test
 const formatAgentResponse = (data) => {
   if (!data) return "Processing request...";
 
+
+
   if (data.agentResult) {
     const result = data.agentResult;
 
