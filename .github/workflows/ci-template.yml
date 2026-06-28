@@ -222,6 +222,7 @@ jobs:
           repository: BlackTickets-Platform/blacktickets-helm
           token: ${{ secrets.HELM_REPO_PAT }}
           path: helm-repo
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
 
       - name: Install yq
