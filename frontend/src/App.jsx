@@ -48,6 +48,8 @@ const formatEventTime = (date) => {
   });
 };
 
+
+
 const isBookingRequest = (message) => /book|ticket|reserve|seats?|passes?/i.test(message);
 
 const formatAgentResponse = (data) => {
